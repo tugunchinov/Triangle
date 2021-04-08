@@ -1,21 +1,12 @@
 #include <iostream>
 
+#include <api.hpp>
 #include <window.hpp>
 
-namespace simple_graphic {
-
-// TODO: well-implemented
-int XErrorHandler(Display* /* display */, XErrorEvent* error_event) {
-  std::cerr << "X server failed with error code " << error_event->error_code
-            << std::endl;
-  // TODO: exit().
-  return 0;
-}
-
-}  // namespace simple_graphic
+// TODO: Здесь нет обработки ошибок :(
 
 int main() {
-  XSetErrorHandler(simple_graphic::XErrorHandler);
+  simple_graphic::CheckCompatibility();
 
   simple_graphic::Window window;
 

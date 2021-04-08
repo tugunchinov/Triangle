@@ -14,19 +14,18 @@ class Window {
       width_(width),
       height_(height),
       root_(DefaultRootWindow(current_display)),
- //     default_screen_(DefaultScreen(current_display)),
-      window_(XCreateWindow(current_display,  /* display */
-                            root_,  /* parent */
-                            0,  /* x */
-                            0,  /* y */
-                            width_,  /* width */
-                            height_,  /* height */
-                            0,  /* border_width */
-                            CopyFromParent,  /* depth */
-                            CopyFromParent,  /* class */
-                            CopyFromParent,  /* visual */
-                            0,  /* valuemask */
-                            nullptr  /* attributes */)) {
+      screen_(DefaultScreen(current_display)),
+      window_(XCreateSimpleWindow(current_display,  /* display */
+                                  root_,  /* parent */
+                                  0,  /* x */
+                                  0,  /* y */
+                                  width_,  /* width */
+                                  height_,  /* height */
+                                  0,  /* border_width */
+                                  BlackPixel(current_display,
+                                             screen_) /* border */,
+                                  BlackPixel(current_display,
+                                             screen_) /* background */)) {
 
   }
 
@@ -37,13 +36,11 @@ class Window {
   friend void RunXLoop();
 
  private:
-  static Display* current_display;
-
   std::size_t width_;
   std::size_t height_;
 
   int root_;
-//  int default_screen_;
+  int screen_;
 
   ::Window window_;
 };
