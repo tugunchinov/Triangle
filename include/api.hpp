@@ -9,13 +9,14 @@ extern "C" {
 
 namespace simple_graphic {
 
-inline Display* current_display = XOpenDisplay(nullptr);
-
 void CheckCompatibility();
 void CheckGLXSupport();
 void CheckGLXVersion();
 
-void RunXLoop();
+int ErrorHandler(Display* display, XErrorEvent* error_event);
+void SetErrorHandler();
+
+void Clear();
 
 }  // namespace simple_graphic
 

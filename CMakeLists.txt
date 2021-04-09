@@ -13,4 +13,4 @@ set(SOURCES main.cpp src/window.cpp src/api.cpp)
 
 add_executable(Triangle ${SOURCES})
 target_include_directories(Triangle PUBLIC include)
-target_link_libraries(Triangle X11 GLX)
+target_link_libraries(Triangle X11 GL)

@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include <config.hpp>
 #include <window.hpp>
 
 namespace simple_graphic {
@@ -10,7 +11,7 @@ void CheckCompatibility() {
 }
 
 void CheckGLXSupport() {
-  if (!glXQueryExtension(current_display, nullptr, nullptr)) {
+  if (!glXQueryExtension(display, nullptr, nullptr)) {
     std::cerr << "GLX is not supported" << std::endl;
     std::exit(1);
   }
@@ -19,20 +20,26 @@ void CheckGLXSupport() {
 void CheckGLXVersion() {
   int major = 0;
   int minor = 0;
-  glXQueryVersion(current_display, &major, &minor);
-  if (major < 1 || (major == 1 && minor < 3)) {
-    std::cerr << "GLX 1.3 and higher required" << std::endl;
+  glXQueryVersion(display, &major, &minor);
+  if (major < 1 || (major == 1 && minor < 2)) {
+    std::cerr << "GLX 1.2 and greater is required" << std::endl;
+    std::exit(1);
   }
 }
 
-void RunXLoop() {
-  while (true) {
-    XEvent x_event;
-    XNextEvent(current_display, &x_event);
-    if (x_event.type == MapNotify) {
-      break;
-    }
-  }
+int ErrorHandler(Display* /*display*/, XErrorEvent* /*error_event*/) {
+  // TODO
+  std::cerr << "Some error occurred" << std::endl;
+  std::exit(1);
+}
+
+void SetErrorHandler() {
+  XSetErrorHandler(ErrorHandler);
+}
+
+void Clear() {
+  glXDestroyContext(display, glx_context);
+  XCloseDisplay(display);
 }
 
 }  // namespace simple_graphic
