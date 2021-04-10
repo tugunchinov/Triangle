@@ -27,9 +27,15 @@ void CheckGLXVersion() {
   }
 }
 
-int ErrorHandler(Display* /*display*/, XErrorEvent* /*error_event*/) {
-  // TODO
-  std::cerr << "Some error occurred" << std::endl;
+void Configure() {
+  simple_graphic::CheckCompatibility();
+  simple_graphic::SetErrorHandler();
+}
+
+int ErrorHandler(Display* /* current_display */, XErrorEvent* error_event) {
+  std::cerr << "Program crashed with error code " << error_event->error_code
+            << std::endl;
+  Clear();
   std::exit(1);
 }
 

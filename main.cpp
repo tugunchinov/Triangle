@@ -4,64 +4,39 @@
 #include <config.hpp>
 #include <window.hpp>
 
-int main() {
-  simple_graphic::CheckCompatibility();
-  simple_graphic::SetErrorHandler();
+void HandleClick(simple_graphic::Window& window, const XEvent& event) {
+  // Left mouse
+  if (event.xbutton.button == 1) {
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-  simple_graphic::Window window;
-
-  window.SetName("Triangle");
-  window.SetEventMask(PointerMotionMask);
-  window.SetEventMask(ButtonPressMask);
-
-  window.Show();
-
-  glClearColor(0.5f, 0.6f, 0.7f, 1.0f);
-
-  glClear(GL_COLOR_BUFFER_BIT);
-
-  glBegin(GL_TRIANGLES);
-  {
-    glColor3f(1.0f, 0.0f, 0.0f);
-    glVertex3f(0.0f, -1.0f, 0.0f);
-    glColor3f(0.0f, 1.0f, 0.0f);
-    glVertex3f(-1.0f, 1.0f, 0.0f);
-    glColor3f(0.0f, 0.0f, 1.0f);
-    glVertex3f(1.0f, 1.0f, 0.0f);
-  }
-  glEnd();
-
-  // Present frame
-  glXSwapBuffers(simple_graphic::display, window.window_);
-
-  XEvent ev;
-  // Enter message loop
-  while (true) {
-    XNextEvent(simple_graphic::display, &ev);
-    // TODO: Extract method "ResizeFit?"
-    if (ev.type == Expose) {
-      XWindowAttributes attribs;
-      XGetWindowAttributes(simple_graphic::display, window.window_, &attribs);
-      glViewport(0, 0, attribs.width, attribs.height);
-    }
-
-    // OpenGL Rendering
-    glClear(GL_COLOR_BUFFER_BIT);
+    int x = event.xmotion.x;
+    int y = event.xmotion.y;
 
     glBegin(GL_TRIANGLES);
     {
-      glColor3f(1.0f, 0.0f, 0.0f);
-      glVertex3f(0.0f, -1.0f, 0.0f);
-      glColor3f(0.0f, 1.0f, 0.0f);
-      glVertex3f(-1.0f, 1.0f, 0.0f);
-      glColor3f(0.0f, 0.0f, 1.0f);
-      glVertex3f(1.0f, 1.0f, 0.0f);
+      glVertex2i(x, y);
+      glVertex2i(window.GetWidth() - x, 0);
+      glVertex2i(0, window.GetHeight() - y);
     }
     glEnd();
-
-    // Present frame
-    glXSwapBuffers(simple_graphic::display, window.window_);
   }
+}
+
+int main() {
+  simple_graphic::Configure();
+
+  simple_graphic::Window window;
+  window.SetName("Triangle");
+
+  window.SetEventsHandlers({
+    {ButtonPressMask, ButtonPress, HandleClick}
+  });
+
+  window.Show();
+
+  window.SetBackgroundColor(0.145f, 0.521f, 0.294f, 1.0f);
+
+  window.RunEventLoop();
 
   simple_graphic::Clear();
 

@@ -13,7 +13,9 @@ void CheckCompatibility();
 void CheckGLXSupport();
 void CheckGLXVersion();
 
-int ErrorHandler(Display* display, XErrorEvent* error_event);
+void Configure();
+
+int ErrorHandler(Display* current_display, XErrorEvent* error_event);
 void SetErrorHandler();
 
 void Clear();
