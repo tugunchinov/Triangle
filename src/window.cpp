@@ -20,9 +20,8 @@ Window::Window(std::size_t width, std::size_t height) :
                           visual->visual, /* visual */
                           CWColormap, /* value_mask */
                           InitWindowAttributes() /* attributes */)) {
+  // Handle window closing
   XSetWMProtocols(display, window_, &atom_wm_delete_window, 1);
-  // Set Exposure event
-  SetEventsHandlers();
 }
 
 Window::~Window() {
