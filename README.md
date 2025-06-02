@@ -1,15 +1,15 @@
 # Triangle
 
-## Описание 
-Приложение позволяет подвигать белый прямоугольный треугольник на зеленом фоне.
+## Description
+The application allows you to move a white rectangular triangle on a green background.
 
-## Требования
-Приложение работает на `Ubuntu 20.10` с `GLX 1.4`, `X11` и `CMake 3.12`. 
-Приложение дожно работать с `GLX 1.2`.
-Приложение, возможно, будет работать с `Ubuntu 16.x`.
-Компилятор дожлен поддерживать `C++20`
+## Requirements
+The application works on `Ubuntu 20.10` with `GLX 1.4`, `X11` and `CMake 3.12`.
+The application should work with `GLX 1.2`.
+The application may work with `Ubuntu 16.x`.
+The compiler should support `C++20`
 
-## Установка и запуск
+## Installation and launch
 `mkdir build` \
 `cd build` \
 `cmake ..` \
@@ -17,4 +17,4 @@
 `./Triangle`
 
 ## N. B.
-Проект еще очень сырой, ему есть куда расти.
+The project is still very raw, it has room to grow.
